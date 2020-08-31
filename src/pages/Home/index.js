@@ -1,33 +1,48 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { FormatarCentavosParaReais } from '../../util/money';
-
+import Products from '../../components/products';
 const mocked = {
-    produtos:[
-        { nome: 'calcinha1', valor: 500 },
-        { nome: 'calcinha2', valor: 500 },
-        { nome: 'calcinha3', valor: 500 },
-        { nome: 'calcinha4', valor: 500 },
-        { nome: 'calcinha5', valor: 500 },
-        { nome: 'calcinha6', valor: 500 },
-        { nome: 'calcinha7', valor: 500 },
-        { nome: 'calcinha8', valor: 500 },
+    produtos: [
+        { codigo:'001', name: 'calcinha', valorCusto: 500, quantidade:1, valorVenda: 1000, lucro:0.6 },
+        { codigo:'001', name: 'calcinha', valorCusto: 500, quantidade:1, valorVenda: 100000000, lucro:0.6 },
+        { codigo:'001', name: 'calcinha', valorCusto: 500, quantidade:1, valorVenda: 1000, lucro:0.6 },
+
     ]
 };
 
-export default function Home() {
+const styles = {
+    titles:{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
 
-    function produtos(){
-    return mocked.produtos.map((produto, index) => (
-        <View key={index}>
-            <Text>{produto.nome} - {FormatarCentavosParaReais(produto.valor)}</Text>
-        </View>
-    ));
+    }
 }
 
-return (
-    <View>
-        {produtos()}
-    </View>
+export default function Home() {
+
+    function produtos() {
+        return mocked.produtos.map((produto, index) => (
+            <Products
+                key={index}
+                produto={produto}
+            />
+
+            // <View key={index}>
+            //     <Text>{produto.nome} - {FormatarCentavosParaReais(produto.valor)}</Text>
+            // </View>
+        ));
+    }
+
+    return (
+        <View>
+            <View style={styles.titles}>
+                <Text>Produto</Text>
+                <Text>Custo</Text>
+                <Text>Venda</Text>
+                <Text>Quantidade</Text>
+            </View>
+            {produtos()}
+        </View>
     );
 }
