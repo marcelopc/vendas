@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const styles = {
     titles:{
@@ -10,12 +9,11 @@ const styles = {
     }
 }
 
-export default function Home() {
+export default function Graficos() {
     return (
         <View>
             <View style={styles.titles}>
-                <Text>HOME</Text>
-
+                <Text>Graficos</Text>
             </View>
         </View>
     );
