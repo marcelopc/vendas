@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView } from 'react-native';
-import { Searchbar } from 'react-native-paper';
+import { Searchbar, FAB } from 'react-native-paper';
 
 import Products from '../../components/products';
 
