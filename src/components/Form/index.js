@@ -1,58 +1,111 @@
-import React, { useRef } from 'react';
-import { View, Button, TextInput } from 'react-native';
-import { FormatarCentavosParaReais } from '../../util/money';
-// import { TextInput } from 'react-native-paper';
-import { Formik } from 'formik';
+import React, { useRef, useState, useEffect } from 'react';
+import { View,} from 'react-native';
 
-const inputs = {
-	codigo:{initValue:'', label:'Código'},
-	nome:{initValue:'', label:'Nome'},
-	valorCusto:{initValue: 0, label:'Custo'},
-	quantidade:{initValue: 0, label:'Quantidade'},
-	valorVenda:{initValue: 0, label:'Valor de venda'},
-	lucro:{initValue:0, label:'Lucro'}
-}
-
+import { FormatarStringReaisToCents } from '../../util/money';
+import { TextInput, Button} from 'react-native-paper';
+import { TextInputMask } from 'react-native-masked-text'
+//TODO:fazer o teclado passar por cima da aplicação
 export default function Products(props) {
-//TODO:TROCAR PARA O INPUT DO REACT-NATIVE-PAPER
-	function CreateInputs(values, handleChange) {
 
-		const inputKeys = Object.keys(inputs);
-		return inputKeys.map(key=>{
-			return <TextInput
-			mode="outlined"
-			label={inputs[key].label}
-			value={values[key]}
-			onChangeText={handleChange(key)}
-		/>
-		});
+	let [codigo, setCodigo] = useState('');
+	let [nome, setNome] = useState('');
+	let [valorCusto, setValorCusto] = useState('0');
+	let [quantidade, setValorQuantidade] = useState('0');
+	let [valorVenda, setValorVenda] = useState('0');
+	let [lucro, setLucro] = useState('');
 
+
+	function CalcLucro(value){
+		const venda = parseInt(value);
+		const custo = parseInt(valorCusto);
+
+		const lucro = ((venda - custo)/venda)*100;
+
+		return lucro ? lucro.toFixed(2).toString() : '0';
 	}
-	function InitialValues(){
-		const inputKeys = Object.keys(inputs);
-		let values = {}
 
-		inputKeys.forEach(key =>{
-			values = {
-				...values,
-				[key]:inputs[key].initValue
-			}
-		});
+	function CalcValorVenda(value){
+		const custo = parseInt(valorCusto);
+		const lucro = parseInt(value);
+		const venda = custo/(1-(lucro/100));
+ 
+		return venda ? venda.toFixed(2).toString() : '0';
+	}
 
-		return values
+	function handleChange(key, value){
+		let sets = {
+			codigo: setCodigo,
+			nome: setNome,
+			valorCusto: setValorCusto,
+			quantidade: setValorQuantidade,
+			valorVenda: setValorVenda,
+			lucro: setLucro,
+		};
+
+		if(key === 'valorVenda'){
+			sets.lucro(CalcLucro(value));
+		}
+
+		if(key === 'lucro'){
+			sets.valorVenda(CalcValorVenda(value));
+		}
+
+		return sets[key](value);
 	}
 
 	return (
-		<Formik
-			initialValues={InitialValues}
-			onSubmit={values => {props.onSubmit(values)}}
-		>
-			{
-				({values, handleChange, handleSubmit}) => {
-					return (<View>
-						{CreateInputs(values, handleChange)}
-					<Button title="submit" onPress={handleSubmit}/>
-				</View>)}
-			}
-		</Formik>);
+	<View>
+		<TextInput
+			mode="outlined"
+			label="Código"
+			value={codigo}
+			onChangeText={(text)=>handleChange('codigo', text)}
+		/>
+
+		<TextInput
+			mode="outlined"
+			label="Nome"
+			value={nome}
+			onChangeText={(text)=>handleChange('nome', text)}
+		/>
+
+		<TextInput
+			mode="outlined"
+			label="Custo"
+			value={valorCusto}
+			onChangeText={(text)=>handleChange('valorCusto', text)}
+			keyboardType="numeric"
+			autoCapitalize="none"
+			// render={(props)=><TextInputMask {...props} type="money"/>}
+
+		/>
+
+		<TextInput
+			mode="outlined"
+			label="Quantidade"
+			value={quantidade}
+			onChangeText={(text)=>handleChange('quantidade', text)}
+			keyboardType="numeric"
+		/>
+
+		<TextInput
+			mode="outlined"
+			label="Valor de venda"
+			value={valorVenda}
+			onChangeText={(text)=>handleChange('valorVenda', text)}
+			keyboardType="numeric"
+			autoCapitalize="none"
+			// render={(props)=><TextInputMask {...props} type="money"/>}
+
+		/>
+
+		<TextInput
+			mode="outlined"
+			label="Lucro"
+			value={lucro}
+			onChangeText={(text)=>handleChange('lucro', text)}
+			keyboardType="numeric"
+		/>
+		<Button  mode="contained">SUBMIT</Button>
+	</View>);
 }

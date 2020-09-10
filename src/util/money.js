@@ -1,4 +1,5 @@
 import {LocaleString} from './LocaleString';
+import { number } from 'yup';
 
 export const FormatarCentavosParaReais = (valor)=>{
 	if(!valor)
@@ -9,6 +10,18 @@ export const FormatarCentavosParaReais = (valor)=>{
 
 };
 
+export const FormatarStringReaisToCents = (valor)=>{
+	if( valor === '0')
+		return valor;
+
+	valor = valor.split('R$')[1];
+	valor = valor.replace(',', '');
+
+	return valor/100;
+};
+
+
 export default {
 	FormatarCentavosParaReais,
+	FormatarStringReaisToCents
 };
