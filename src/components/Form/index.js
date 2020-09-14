@@ -72,14 +72,16 @@ export default function Products(props) {
 
 	function submit(){
 
-		props.onSubmit({
+		let retorno = {
 			codigo,
 			nome,
-			valorCusto,
+			valorCusto: valorCusto*100,
 			quantidade,
-			valorVenda,
+			valorVenda: valorVenda*100,
 			lucro
-		})
+		}
+
+		props.onSubmit(retorno)
 	}
 
 	return (
