@@ -15,7 +15,7 @@ export const FormatarStringReaisToCents = (valor)=>{
 	valor = valor.split('R$')[1];
 	valor = valor.replace(',', '');
 
-	return valor/100;
+	return valor;
 };
 
 
