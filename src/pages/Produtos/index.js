@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, Image } from 'react-native';
-import { Searchbar, FAB } from 'react-native-paper';
+import { Searchbar, FAB, List } from 'react-native-paper';
 import DB from '../../database';
 
 import Products from '../../components/products';
@@ -12,7 +12,6 @@ const styles = {
      marginBottom: 60,
     },
     imageContainer:{
-        // justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: "#FFF",
         height: '100%'
@@ -55,7 +54,7 @@ export default function Produtos() {
 
     function Produtos() {
         const produtos = FilterProducts(search);
-  
+
         if(produtos){
             const productsElements = produtos.map((produto, index) => (
                 <Products
@@ -72,10 +71,7 @@ export default function Produtos() {
             return <ScrollView style={styles.ScrollView}>{productsElements}</ScrollView>
         }
 
-        return <View style={styles.imageContainer}>
-            <Image style={styles.image} source={require('../../assets/images/undraw_empty_xct9.png')}/>
-            <Text style={styles.notfound}>Nenhum produto encontrado</Text>
-        </View>
+        return 
 
     }
 
@@ -86,8 +82,26 @@ export default function Produtos() {
                 onChangeText={onChangeSearch}
                 value={search}
             />
+            <View>
+                {produtos &&
+                    <List.AccordionGroup>
+                        <List.Accordion title="Unitários" id="1">
+                            {Produtos()}
+                        </List.Accordion>
+                        <List.Accordion title="Conjuntos" id="2">
+                            <List.Item title="Item 2" />
+                        </List.Accordion>
+                    </List.AccordionGroup>
+                }
+                {!produtos &&
+                    <View style={styles.imageContainer}>
+                        <Image style={styles.image} source={require('../../assets/images/undraw_empty_xct9.png')}/>
+                        <Text style={styles.notfound}>Nenhum produto encontrado</Text>
+                    </View>
+                }
 
-            {Produtos()}
+
+            </View>
 
         </Container>
     );

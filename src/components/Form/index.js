@@ -81,7 +81,17 @@ export default function Products(props) {
 			lucro
 		}
 
-		props.onSubmit(retorno)
+		props.onSubmit(retorno);
+		clearInputs();
+	}
+
+	function clearInputs(){
+		setCodigo('');
+		setNome('');
+		setValorCusto('');
+		setValorQuantidade('');
+		setValorVenda('');
+		setLucro('');
 	}
 
 	return (
