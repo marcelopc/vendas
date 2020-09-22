@@ -76,9 +76,9 @@ export default function Products(props) {
 		let retorno = {
 			codigo,
 			nome,
-			valorCusto: valorCusto*100,
+			valorCusto: valorCusto,
 			quantidade,
-			valorVenda: valorVenda*100,
+			valorVenda: valorVenda,
 			lucro
 		}
 
