@@ -15,7 +15,7 @@ const style={
 	}
 }
 export default function Products(props) {
-//TODO: REAJUSTAR OS VALORES POR CAUSA DO FormatarStringReaisToCents
+
 	let [codigo, setCodigo] = useState('');
 	let [nome, setNome] = useState('');
 	let [valorCusto, setValorCusto] = useState('');
